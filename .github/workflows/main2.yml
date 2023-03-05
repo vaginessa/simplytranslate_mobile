@@ -33,24 +33,20 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk --flavor development
  
-      - name: Create 7z Release
-        uses: DuckSoft/create-7z-action@v1.0
-        with:
-          pathSource: ./build/app/outputs/flutter-apk/app-development.apk
-          pathTarget: ./release.7z
+    
  
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: vanni-build-apk.7z
-          path: release.7z
+          name: vanni-build-apk
+          path: release
  
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: release.7z
-          asset_name: vanni-build-apk.7z
+          file: release.apk
+          asset_name: vanni-build-apk
           tag: ${{ github.ref }}
           overwrite: true
  
