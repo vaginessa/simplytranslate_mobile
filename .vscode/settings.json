@@ -1,5 +1,3 @@
 {
-    "licenser.author": "ManeraKai",
-    "licenser.projectName": "simplytranslate_mobile",
-    "licenser.license": "GPLv3"
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

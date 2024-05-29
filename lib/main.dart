@@ -1,89 +1,34 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:camera/camera.dart';
-import 'package:clipboard_listener/clipboard_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_tesseract_ocr/flutter_tesseract_ocr.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:simplytranslate_mobile/generated/l10n.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:simplytranslate_mobile/screens/about/about_screen.dart';
-// import 'package:simplytranslate_mobile/screens/overlay/overlay_screen.dart';
 import 'package:simplytranslate_mobile/screens/settings/settings_screen.dart';
 import 'data.dart';
-import 'google/google_translate_widget.dart';
+import 'screens/translate/translate.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-  } on CameraException catch (e) {
-    print(e);
-  }
-  ByteData data =
-      await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
-  SecurityContext.defaultContext
-      .setTrustedCertificatesBytes(data.buffer.asUint8List());
+  ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+  SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   await GetStorage.init();
 
-  final sessionInstances = session.read('instances');
-  if (sessionInstances != null) {
-    List<String> tmp = [];
-    for (var item in sessionInstances) tmp.add(item.toString());
-    instances = tmp;
+  String? themeSession = session.read('theme');
+  if (themeSession == 'system') {
+    themeRadio = AppTheme.system;
+    theme = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+  } else if (themeSession == 'light') {
+    themeRadio = AppTheme.light;
+    theme = Brightness.light;
+  } else if (themeSession == 'dark') {
+    themeRadio = AppTheme.dark;
+    theme = Brightness.dark;
   }
-
-  instance = session.read('instance_mode') ?? instance;
-
-  final sessionCustomInstance = session.read('customInstance') ?? '';
-  customUrlCtrl.text = sessionCustomInstance;
-  customInstance = sessionCustomInstance;
-
-  var themeSession = session.read('theme').toString();
-  if (themeSession != 'null') {
-    if (themeSession == 'system') {
-      themeRadio = AppTheme.system;
-      theme = SchedulerBinding.instance.window.platformBrightness;
-    } else if (themeSession == 'light') {
-      themeRadio = AppTheme.light;
-      theme = Brightness.light;
-    } else if (themeSession == 'dark') {
-      themeRadio = AppTheme.dark;
-      theme = Brightness.dark;
-    }
-  }
-
-  print('checking inList');
-  if (session.read('inListWidgets') != null) {
-    inList = Map.from(session.read('inListWidgets'));
-  }
-  if (session.read('outListWidgets') != null) {
-    outList = Map.from(session.read('outListWidgets'));
-  }
-
-  flutterTesseractOcrTessdataPath = await FlutterTesseractOcr.getTessdataPath();
-
-  two2three.forEach((key, value) {
-    var dir = Directory(flutterTesseractOcrTessdataPath);
-
-    if (!dir.existsSync()) dir.create();
-
-    var dirList = dir.listSync();
-    dirList.forEach((element) {
-      String name = element.path.split('/').last;
-      if (name == '$value.traineddata')
-        downloadingList[key] = TrainedDataState.Downloaded;
-    });
-  });
-
-  var _clipData = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
-
-  isClipboardEmpty = _clipData.toString() == '' || _clipData == null;
 
   packageInfo = await PackageInfo.fromPlatform();
 
@@ -99,12 +44,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    ClipboardListener.addListener(() async {
-      var _clipData = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
-      if (_clipData.toString() == '' || _clipData == null) {
-        if (!isClipboardEmpty) setState(() => isClipboardEmpty = true);
-      } else if (isClipboardEmpty) setState(() => isClipboardEmpty = false);
-    });
     contextOverlordData = context;
     setStateOverlord = setState;
     super.initState();
@@ -114,20 +53,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-    ClipboardListener.removeListener(() {});
   }
 
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       await Future.delayed(Duration(seconds: 1));
       getSharedText();
-
-      var _clipData = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
-      if (_clipData.toString() == '' || _clipData == null) {
-        if (!isClipboardEmpty) setState(() => isClipboardEmpty = true);
-      } else {
-        if (isClipboardEmpty) setState(() => isClipboardEmpty = false);
-      }
     }
   }
 
@@ -158,27 +89,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
         appLocale = locales[0];
         for (var i = 0; i < locales.length; i++)
-          if (supportedLocalesCountryCode.contains(localesCountryCode[i]) &&
-              supportedLocalesLangCode.contains(localesLangCode[i]))
+          if (supportedLocalesCountryCode.contains(localesCountryCode[i]) && supportedLocalesLangCode.contains(localesLangCode[i]))
             return Locale(localesLangCode[i], localesCountryCode[i]);
-          else if (supportedLocalesLangCode.contains(localesLangCode[i]))
-            return Locale(localesLangCode[i]);
+          else if (supportedLocalesLangCode.contains(localesLangCode[i])) return Locale(localesLangCode[i]);
         return Locale('en');
       },
-      localizationsDelegates: [
-        L10n.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: L10n.delegate.supportedLocales,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme(
           primary: greenColor,
-          // primaryVariant: greenColor,
           secondary: greenColor,
-          // secondaryVariant: greenColor,
           surface: Colors.white,
           background: Colors.white,
           error: Colors.red,
@@ -206,8 +126,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         )),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(
-                const EdgeInsets.symmetric(horizontal: 10)),
+            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 10)),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
             ),
@@ -219,8 +138,49 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ),
           behavior: SnackBarBehavior.floating,
         ),
-        toggleableActiveColor: greenColor,
         iconTheme: IconThemeData(color: greenColor),
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+          trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+        ),
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme(
@@ -257,24 +217,63 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
           side: BorderSide(width: 1.5, color: const Color(0xff495057)),
         )),
-        toggleableActiveColor: greenColor,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.pressed))
                   return Theme.of(context).colorScheme.primary.withOpacity(0.5);
-                else if (states.contains(MaterialState.disabled))
-                  return Color(0xff495057);
+                else if (states.contains(MaterialState.disabled)) return Color(0xff495057);
                 return greenColor; // Use the component's default.
               },
             ),
           ),
         ),
         snackBarTheme: SnackBarThemeData(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           behavior: SnackBarBehavior.floating,
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+          trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return greenColor;
+            }
+            return null;
+          }),
         ),
       ),
       themeMode: theme == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
@@ -284,21 +283,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           preferredSize: Size(0, 60),
           child: Builder(
             builder: (context) => AppBar(
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(2),
-                child: Container(height: 2, color: greenColor),
-              ),
               actions: [
                 PopupMenuButton(
                   icon: Icon(Icons.more_vert, color: Colors.white),
                   itemBuilder: (BuildContext context) => [
-                    PopupMenuItem<String>(
+                    PopupMenuItem(
                       value: 'settings',
-                      child: Text(L10n.of(context).settings),
+                      child: Text(i18n().main.settings),
                     ),
-                    PopupMenuItem<String>(
+                    PopupMenuItem(
                       value: 'about',
-                      child: Text(L10n.of(context).about),
+                      child: Text(i18n().main.about),
                     ),
                   ],
                   onSelected: (value) {
@@ -332,20 +327,19 @@ class MainPageLocalization extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String> themeTranslation = {
-      'dark': L10n.of(context).dark,
-      'light': L10n.of(context).light,
-      'system': L10n.of(context).follow_system,
+      'dark': i18n().main.dark,
+      'light': i18n().main.light,
+      'system': i18n().main.follow_system,
     };
 
     themeValue = themeTranslation[session.read('theme') ?? 'system']!;
 
     toSelLangMap = selectLanguagesMapGetter(context);
     fromSelLangMap = selectLanguagesMapGetter(context);
-    fromSelLangMap['auto'] = L10n.of(context).autodetect;
+    fromSelLangMap['auto'] = i18n().langs.autodetect;
 
     fromLangVal = session.read('from_lang') ?? 'auto';
     toLangVal = session.read('to_lang') ?? appLocale.languageCode;
-    shareLangVal = session.read('share_lang') ?? appLocale.languageCode;
 
     return MainPage();
   }

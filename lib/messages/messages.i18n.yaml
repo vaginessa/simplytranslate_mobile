@@ -1,0 +1,143 @@
+langs:
+  afrikaans: Afrikaans
+  albanian: Albanian
+  amharic: Amharic
+  arabic: Arabic
+  armenian: Armenian
+  autodetect: Autodetect
+  azerbaijani: Azerbaijani
+  basque: Basque
+  belarusian: Belarusian
+  bengali: Bengali
+  bosnian: Bosnian
+  bulgarian: Bulgarian
+  catalan: Catalan
+  cebuano: Cebuano
+  chichewa: Chichewa
+  chinese: Chinese
+  corsican: Corsican
+  croatian: Croatian
+  czech: Czech
+  danish: Danish
+  dutch: Dutch
+  english: English
+  esperanto: Esperanto
+  estonian: Estonian
+  filipino: Filipino
+  finnish: Finnish
+  french: French
+  frisian: Frisian
+  galician: Galician
+  georgian: Georgian
+  german: German
+  greek: Greek
+  gujarati: Gujarati
+  haitian_creole: Haitian Creole
+  hausa: Hausa
+  hawaiian: Hawaiian
+  hebrew: Hebrew
+  hindi: Hindi
+  hmong: Hmong
+  hungarian: Hungarian
+  icelandic: Icelandic
+  igbo: Igbo
+  indonesian: Indonesian
+  irish: Irish
+  italian: Italian
+  japanese: Japanese
+  javanese: Javanese
+  kannada: Kannada
+  kazakh: Kazakh
+  khmer: Khmer
+  kinyarwanda: Kinyarwanda
+  korean: Korean
+  kurdish_kurmanji: Kurdish (Kurmanji)
+  kyrgyz: Kyrgyz
+  lao: Lao
+  latin: Latin
+  latvian: Latvian
+  lithuanian: Lithuanian
+  luxembourgish: Luxembourgish
+  macedonian: Macedonian
+  malagasy: Malagasy
+  malay: Malay
+  malayalam: Malayalam
+  maltese: Maltese
+  maori: Maori
+  marathi: Marathi
+  mongolian: Mongolian
+  myanmar_burmese: Myanmar (Burmese)
+  nepali: Nepali
+  norwegian: Norwegian
+  odia_oriya: Odia (Oriya)
+  pashto: Pashto
+  persian: Persian
+  polish: Polish
+  portuguese: Portuguese
+  punjabi: Punjabi
+  romanian: Romanian
+  russian: Russian
+  samoan: Samoan
+  scots_gaelic: Scots Gaelic
+  serbian: Serbian
+  sesotho: Sesotho
+  shona: Shona
+  sindhi: Sindhi
+  sinhala: Sinhala
+  slovak: Slovak
+  slovenian: Slovenian
+  somali: Somali
+  spanish: Spanish
+  sundanese: Sundanese
+  swahili: Swahili
+  swedish: Swedish
+  tajik: Tajik
+  tamil: Tamil
+  tatar: Tatar
+  telugu: Telugu
+  thai: Thai
+  traditional_chinese: Traditional Chinese
+  turkish: Turkish
+  turkmen: Turkmen
+  ukrainian: Ukrainian
+  urdu: Urdu
+  uyghur: Uyghur
+  uzbek: Uzbek
+  vietnamese: Vietnamese
+  welsh: Welsh
+  xhosa: Xhosa
+  yiddish: Yiddish
+  yoruba: Yoruba
+  zulu: Zul
+main:
+  about: About
+  appearance: Appearance
+  audio_limit: Cannot get audio for more than 200 characters
+  autodetect_not_supported: Autodetect not supported
+  cancel: Cancel
+  contribute: Contribute
+  copied_to_clipboard: Copied to clipboard
+  dark: Dark
+  definitions: Definitions
+  donate: Donate
+  enter_text_here: Enter text here
+  error: There was an error
+  follow_system: Follow system
+  help: Help
+  input_limit: The translation input is above 5000
+  install: Install
+  license: License
+  light: Light
+  no_internet: No internet connection
+  ok: OK
+  report_bug: Report a bug
+  settings: Settings
+  something_went_wrong: Something went wrong
+  text_recognition: Text Recognition
+  text_to_speech: Text-To-Speech
+  theme: Theme
+  translate: Translate
+  translation: Translation
+  translations: Translation
+  version: Version
+  website: Website

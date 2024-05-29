@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:simplytranslate_mobile/generated/l10n.dart';
 import 'package:simplytranslate_mobile/data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'about_screen_button.dart';
@@ -13,7 +12,6 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  String dropdownValue = 'Buy me a coffee';
   @override
   Widget build(BuildContext context) {
     Widget line = Container(
@@ -26,7 +24,7 @@ class _AboutScreenState extends State<AboutScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(L10n.of(context).about),
+        title: Text(i18n().main.about),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -35,151 +33,70 @@ class _AboutScreenState extends State<AboutScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                L10n.of(context).help,
+                i18n().main.help,
                 style: textStyle,
               ),
               line,
               AboutButton(
                 icon: Icons.favorite,
                 iconColor: Colors.redAccent,
-                title: L10n.of(context).contribute,
-                content: L10n.of(context).contribute_summary,
+                title: i18n().main.contribute,
                 onTap: () => launchUrl(
                   Uri.parse(
                     'https://github.com/ManeraKai/simplytranslate_mobile',
                   ),
-                ),
-              ),
-              AboutButton(
-                icon: Icons.translate_rounded,
-                iconColor: Colors.blue,
-                title: L10n.of(context).translate,
-                content: L10n.of(context).translate_summary,
-                onTap: () => launchUrl(
-                  Uri.parse(
-                    'https://hosted.weblate.org/projects/simplytranslate-mobile/',
-                  ),
+                  mode: LaunchMode.externalApplication,
                 ),
               ),
               AboutButton(
                 icon: Icons.attach_money_rounded,
                 iconColor: Colors.greenAccent,
-                title: L10n.of(context).donate,
-                content: L10n.of(context).donate_summary,
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        InkWell(
-                          onTap: () => launchUrl(
-                            Uri.parse(
-                              "https://www.buymeacoffee.com/manerakai",
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 64,
-                                child: Image.asset(
-                                  theme == Brightness.dark
-                                      ? "assets/about/bmc_dark.png"
-                                      : "assets/about/bmc.png",
-                                  scale: 2,
-                                ),
-                              ),
-                              Container(
-                                width: 200,
-                                child: Text(
-                                  'Buy me a coffee',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    letterSpacing: 1.25,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => launchUrl(
-                            Uri.parse(
-                              "https://liberapay.com/simplytranslate_mobile",
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 64,
-                                child: Image.asset(
-                                  theme == Brightness.dark
-                                      ? "assets/about/liberapay_dark.png"
-                                      : "assets/about/liberapay.png",
-                                  scale: 2,
-                                ),
-                              ),
-                              Container(
-                                width: 200,
-                                child: Text(
-                                  L10n.of(context).liberapay,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    letterSpacing: 1.25,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                title: i18n().main.donate,
+                onTap: () => launchUrl(
+                  Uri.parse(
+                    'https://manerakai.github.io/simplytranslate_mobile/donate.html',
+                  ),
+                  mode: LaunchMode.externalApplication,
                 ),
               ),
               AboutButton(
                 icon: Icons.report,
                 iconColor: Colors.red,
-                title: L10n.of(context).report_bug,
-                content: L10n.of(context).report_bug_summary,
+                title: i18n().main.report_bug,
                 onTap: () => launchUrl(
-                  Uri.parse(
-                      'https://github.com/ManeraKai/simplytranslate_mobile/issues'),
+                  Uri.parse('https://github.com/ManeraKai/simplytranslate_mobile/issues'),
+                  mode: LaunchMode.externalApplication,
                 ),
               ),
               const SizedBox(height: 20),
               Text(
-                L10n.of(context).about,
+                i18n().main.about,
                 style: textStyle,
               ),
               line,
               AboutButton(
                 icon: Icons.web,
                 iconColor: Colors.amber,
-                title: L10n.of(context).website,
+                title: i18n().main.website,
                 onTap: () => launchUrl(
                   Uri.parse(
                     'https://manerakai.github.io/simplytranslate_mobile/',
                   ),
+                  mode: LaunchMode.externalApplication,
                 ),
               ),
               AboutButton(
                 icon: Icons.info_outline,
-                iconColor:
-                    theme == Brightness.dark ? Colors.white : Colors.black,
-                title: L10n.of(context).version,
+                iconColor: theme == Brightness.dark ? Colors.white : Colors.black,
+                title: i18n().main.version,
                 content: packageInfo.version,
-                onTap: () =>
-                    Clipboard.setData(ClipboardData(text: packageInfo.version))
-                        .then(
+                onTap: () => Clipboard.setData(ClipboardData(text: packageInfo.version)).then(
                   (_) => ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       duration: Duration(seconds: 2),
                       width: 160,
                       content: Text(
-                        L10n.of(context).copied_to_clipboard,
+                        i18n().main.copied_to_clipboard,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -188,14 +105,14 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
               AboutButton(
                 icon: Icons.copyright,
-                iconColor:
-                    theme == Brightness.dark ? Colors.white : Colors.black,
-                title: L10n.of(context).license,
+                iconColor: theme == Brightness.dark ? Colors.white : Colors.black,
+                title: i18n().main.license,
                 content: 'GPL-3.0 License',
                 onTap: () => launchUrl(
                   Uri.parse(
                     'https://github.com/ManeraKai/simplytranslate_mobile/blob/main/LICENSE',
                   ),
+                  mode: LaunchMode.externalApplication,
                 ),
               ),
             ],

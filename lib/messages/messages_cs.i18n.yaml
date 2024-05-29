@@ -1,0 +1,143 @@
+langs:
+  afrikaans: afrikánština
+  albanian: albánština
+  amharic: amharština
+  arabic: arabština
+  armenian: arménština
+  autodetect: Detekovat automaticky
+  azerbaijani: ázerbájdžánština
+  basque: baskičtina
+  belarusian: běloruština
+  bengali: bengálština
+  bosnian: bosenština
+  bulgarian: bulharština
+  catalan: katalánština
+  cebuano: cebuánština
+  chichewa: Chichewa
+  chinese: čínština
+  corsican: Corsican
+  croatian: Croatian
+  czech: Czech
+  danish: Danish
+  dutch: Dutch
+  english: English
+  esperanto: Esperanto
+  estonian: Estonian
+  filipino: Filipino
+  finnish: Finnish
+  french: French
+  frisian: Frisian
+  galician: Galician
+  georgian: Georgian
+  german: German
+  greek: Greek
+  gujarati: Gujarati
+  haitian_creole: Haitian Creole
+  hausa: Hausa
+  hawaiian: Hawaiian
+  hebrew: Hebrew
+  hindi: Hindi
+  hmong: Hmong
+  hungarian: Hungarian
+  icelandic: Icelandic
+  igbo: Igbo
+  indonesian: Indonesian
+  irish: Irish
+  italian: Italian
+  japanese: Japanese
+  javanese: Javanese
+  kannada: Kannada
+  kazakh: Kazakh
+  khmer: Khmer
+  kinyarwanda: Kinyarwanda
+  korean: Korean
+  kurdish_kurmanji: Kurdish (Kurmanji)
+  kyrgyz: Kyrgyz
+  lao: Lao
+  latin: Latin
+  latvian: Latvian
+  lithuanian: Lithuanian
+  luxembourgish: Luxembourgish
+  macedonian: Macedonian
+  malagasy: Malagasy
+  malay: Malay
+  malayalam: Malayalam
+  maltese: Maltese
+  maori: Maori
+  marathi: Marathi
+  mongolian: Mongolian
+  myanmar_burmese: Myanmar (Burmese)
+  nepali: Nepali
+  norwegian: Norwegian
+  odia_oriya: Odia (Oriya)
+  pashto: Pashto
+  persian: Persian
+  polish: Polish
+  portuguese: Portuguese
+  punjabi: Punjabi
+  romanian: Romanian
+  russian: Russian
+  samoan: Samoan
+  scots_gaelic: Scots Gaelic
+  serbian: Serbian
+  sesotho: Sesotho
+  shona: Shona
+  sindhi: Sindhi
+  sinhala: Sinhala
+  slovak: Slovak
+  slovenian: Slovenian
+  somali: Somali
+  spanish: Spanish
+  sundanese: Sundanese
+  swahili: Swahili
+  swedish: Swedish
+  tajik: Tajik
+  tamil: Tamil
+  tatar: Tatar
+  telugu: Telugu
+  thai: Thai
+  traditional_chinese: Traditional Chinese
+  turkish: Turkish
+  turkmen: Turkmen
+  ukrainian: Ukrainian
+  urdu: Urdu
+  uyghur: Uyghur
+  uzbek: Uzbek
+  vietnamese: Vietnamese
+  welsh: Welsh
+  xhosa: Xhosa
+  yiddish: Yiddish
+  yoruba: Yoruba
+  zulu: Zul
+main:
+  about: O aplikaci
+  appearance: Vzhled
+  audio_limit: Nelze získat zvuk pro více než 200 znaků
+  autodetect_not_supported: Automatická detekce není podporována
+  cancel: Zrušit
+  contribute: Přispějte
+  copied_to_clipboard: Zkopírováno do schránky
+  dark: Tmavý
+  definitions: Definice
+  donate: Darovat
+  enter_text_here: Zde zadejte text
+  error: Něco se nepovedlo
+  follow_system: Systémový
+  help: Nápověda
+  input_limit: Chcete přeložit více než 5000 znaků
+  install: Nainstalovat
+  license: Licence
+  light: Světlý
+  no_internet: Jste bez internetu
+  ok: OK
+  report_bug: Nahlásit chybu
+  settings: Nastavení
+  something_went_wrong: Něco se pokazilo
+  text_recognition: Rozpoznávání textu
+  text_to_speech: Převod textu na řeč
+  theme: Motiv
+  translate: Přeložit
+  translation: Překlad
+  translations: Překlady
+  version: Verze
+  website: Webové stránky
